@@ -1,8 +1,8 @@
-import { drizzle } from 'drizzle-orm/vercel-postgres';
-import { sql } from '@vercel/postgres';
-import postgres from 'postgres';
+import { drizzle } from "drizzle-orm/vercel-postgres";
+import { sql } from "@vercel/postgres";
+import postgres from "postgres";
 
-import { config } from 'dotenv';
+import { config } from "dotenv";
 config();
 
 // Use this object to send drizzle queries to your DB
