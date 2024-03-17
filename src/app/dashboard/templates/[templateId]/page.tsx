@@ -8,7 +8,8 @@ import { desc, eq } from "drizzle-orm";
 import { Pencil, PlusCircle } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { MakeActiveButton } from "./make-active-button";
+import { MakeActiveButton } from "@/components/make-active-button";
+import { CreateNewHTMLTemplateDialog } from "@/components/create-new-html-template-dialog";
 
 export default async function TemplatePage({
   params,
@@ -34,12 +35,7 @@ export default async function TemplatePage({
       <div className="flex items-center mb-4 gap-16">
         <h2 className="text-lg font-semibold">{templateData.title}</h2>
 
-        <Link href={`/dashboard/templates/${templateData.id}/new`} passHref>
-          <Button>
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Create New
-          </Button>
-        </Link>
+        <CreateNewHTMLTemplateDialog templateId={templateData.id} />
       </div>
 
       <div className="flex gap-8 flex-wrap">
@@ -58,61 +54,66 @@ export default async function TemplatePage({
 
           return (
             <Card key={content.id} className="max-w-md min-w-96">
-              <CardContent className="p-6">
-                <p className="text-lg font-bold mb-2">{content.title}</p>
+              <CardContent className="p-6 flex flex-col justify-between h-full">
+                <div>
+                  <p className="text-lg font-bold mb-2">{content.title}</p>
 
-                {isActive && (
-                  <div className="flex items-center gap-2 font-medium text-sm">
-                    <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                    <p>
-                      Active HTML Template for &quot;{templateData.title}
-                      &quot;
-                    </p>
+                  {isActive && (
+                    <div className="flex items-center gap-2 font-medium text-sm">
+                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
+                      <p>
+                        Active HTML Template for &quot;{templateData.title}
+                        &quot;
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium mt-2">
+                    Created{" "}
+                    {formatDistance(new Date(content.createdAt), new Date(), {
+                      includeSeconds: true,
+                      addSuffix: true,
+                    })}
+                  </p>
+
+                  <p className=" text-sm font-medium">
+                    Last Updated{" "}
+                    {formatDistance(new Date(content.updatedAt), new Date(), {
+                      includeSeconds: true,
+                      addSuffix: true,
+                    })}
+                  </p>
+
+                  <div className="flex gap-4 mt-6">
+                    <form
+                      action={async () => {
+                        "use server";
+
+                        await db
+                          .update(emailTemplates)
+                          .set({
+                            activeContentId: content.id,
+                            updatedAt: new Date().toISOString(),
+                          })
+                          .where(eq(emailTemplates.id, templateId));
+
+                        revalidatePath(`/dashboard/templates/${templateId}`);
+                      }}
+                    >
+                      <MakeActiveButton isActive={isActive} />
+                    </form>
+                    <Link
+                      href={`/dashboard/templates/${templateData.id}/${content.id}/edit`}
+                      passHref
+                    >
+                      <Button variant="outline">
+                        Edit
+                        <Pencil className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
-                )}
-
-                <p className="text-sm font-medium mt-2">
-                  Created{" "}
-                  {formatDistance(new Date(content.createdAt), new Date(), {
-                    includeSeconds: true,
-                    addSuffix: true,
-                  })}
-                </p>
-
-                <p className=" text-sm font-medium">
-                  Last Updated{" "}
-                  {formatDistance(new Date(content.updatedAt), new Date(), {
-                    includeSeconds: true,
-                    addSuffix: true,
-                  })}
-                </p>
-
-                <div className="flex gap-4 mt-6">
-                  <form
-                    action={async () => {
-                      "use server";
-
-                      await db
-                        .update(emailTemplates)
-                        .set({
-                          activeContentId: content.id,
-                        })
-                        .where(eq(emailTemplates.id, templateId));
-
-                      revalidatePath(`/dashboard/templates/${templateId}`);
-                    }}
-                  >
-                    <MakeActiveButton isActive={isActive} />
-                  </form>
-                  <Link
-                    href={`/dashboard/templates/${templateData.id}/${content.id}/edit`}
-                    passHref
-                  >
-                    <Button variant="outline">
-                      Edit
-                      <Pencil className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
                 </div>
               </CardContent>
             </Card>

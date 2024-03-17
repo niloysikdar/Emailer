@@ -1,0 +1,1 @@
+ALTER TABLE "template_contents" ADD COLUMN "design_json" json NOT NULL;
