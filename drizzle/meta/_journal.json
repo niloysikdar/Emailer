@@ -8,6 +8,13 @@
       "when": 1710661452348,
       "tag": "0000_wealthy_rage",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710670654482,
+      "tag": "0001_late_starbolt",
+      "breakpoints": true
     }
   ]
 }

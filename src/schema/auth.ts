@@ -1,4 +1,6 @@
 import { timestamp, pgTable, text } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { emails } from "./emails";
 
 export const users = pgTable("users", {
   id: text("id").notNull().primaryKey(),
@@ -7,3 +9,7 @@ export const users = pgTable("users", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  emails: many(emails),
+}));
