@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import type { Email } from "@/schema/emails";
 import { DeliveryStatusIndicator } from "../delivery-status-indicator";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 function getFormattedDateTime(dateTime: string) {
   const date = new Date(dateTime);
@@ -47,7 +48,12 @@ export const columns: ColumnDef<Email>[] = [
     id: "subject",
     header: () => <p className="pl-2">Subject</p>,
     cell: ({ row }) => (
-      <p className="max-w-40 truncate pl-2">{row.original.subject}</p>
+      <Link
+        href={`/emails/${row.original.messageId}`}
+        className="max-w-40 truncate pl-2 underline underline-offset-2"
+      >
+        {row.original.subject}
+      </Link>
     ),
   },
   {

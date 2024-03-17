@@ -1,24 +1,26 @@
-import { Send, BarChart3, List } from "lucide-react";
+import { Send, BarChart3, List, File } from "lucide-react";
 
 export const SIDEBAR_ITEMS = [
   {
     title: "Sending History",
     icon: List,
     link: "/dashboard/emails",
-    label: "",
   },
   {
     title: "Send Email",
     icon: Send,
     link: "/dashboard/send-email",
-    label: "",
   },
 
   {
     title: "Analytics",
     icon: BarChart3,
     link: "/dashboard/analytics",
-    label: "",
+  },
+  {
+    title: "Email Templates",
+    icon: File,
+    link: "/dashboard/templates",
   },
 ];
 

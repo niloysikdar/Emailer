@@ -16,7 +16,7 @@ export function Sidebar() {
           <SidebarEachLink
             key={item.link}
             index={index}
-            item={{ title: item.title, link: item.link, label: item.label }}
+            item={{ title: item.title, link: item.link }}
           />
         ))}
       </nav>

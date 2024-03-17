@@ -1,6 +1,7 @@
 import { timestamp, pgTable, text } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { emails } from "./emails";
+import { emailTemplates } from "./templates";
 
 export const users = pgTable("users", {
   id: text("id").notNull().primaryKey(),
@@ -12,4 +13,5 @@ export const users = pgTable("users", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   emails: many(emails),
+  emailTemplates: many(emailTemplates),
 }));
