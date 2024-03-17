@@ -3,6 +3,7 @@ import { timestamp, pgTable, text, pgEnum, boolean } from "drizzle-orm/pg-core";
 import type { InferSelectModel } from "drizzle-orm";
 import { users } from "./auth";
 import { emailOpens } from "./emailOpens";
+import { linkClicks } from "./linkClicks";
 
 export const deliveryStatusEnum = pgEnum("delivery_status", [
   "SENDING",
@@ -39,6 +40,7 @@ export const emailsRelations = relations(emails, ({ one, many }) => ({
     references: [users.id],
   }),
   opens: many(emailOpens),
+  clicks: many(linkClicks),
 }));
 
 export type Email = InferSelectModel<typeof emails> & {

@@ -53,3 +53,24 @@ export type OpenWebhookData = {
   Recipient: string;
   Metadata: any | null;
 };
+
+export type LinkClickWebhookData = {
+  RecordType: "Click";
+  MessageStream: "outbound";
+  Recipient: string;
+  MessageID: string;
+  ReceivedAt: string;
+  Platform: string;
+  ClickLocation: string;
+  OriginalLink: string;
+  Tag: string;
+  UserAgent: string;
+  OS: {
+    Name: string;
+    Family: string;
+    Company: string;
+  };
+  Client: { Name: string; Family: string; Company: string };
+  Geo: any | null;
+  Metadata: any | null;
+};

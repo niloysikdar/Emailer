@@ -5,6 +5,7 @@ import type { SendEmailFormValues } from "@/components/send-email/form-schema";
 import { db } from "@/lib/db";
 import { emails } from "@/schema/emails";
 import { auth } from "@/lib/auth";
+import { LinkTrackingOptions } from "postmark/dist/client/models";
 
 export async function sendEmail(
   values: SendEmailFormValues,
@@ -20,6 +21,7 @@ export async function sendEmail(
       Subject: subject,
       HtmlBody: textBody,
       TrackOpens: true,
+      TrackLinks: LinkTrackingOptions.HtmlAndText,
     });
 
     await db.insert(emails).values({

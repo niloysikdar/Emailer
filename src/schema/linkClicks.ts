@@ -2,14 +2,16 @@ import { relations } from "drizzle-orm";
 import { timestamp, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { emails } from "./emails";
 
-export const emailOpens = pgTable("email_opens", {
+export const linkClicks = pgTable("link_clicks", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
-  openClientName: text("open_client_name").notNull(),
-  openPlatform: text("open_platform").notNull(),
   messageId: text("message_id")
     .references(() => emails.messageId, { onDelete: "cascade" })
     .notNull(),
-  openedAt: timestamp("opened_at", {
+  clickLocation: text("click_location").notNull(),
+  originalLink: text("original_link").notNull(),
+  clickClientName: text("click_client_name").notNull(),
+  clickPlatform: text("click_platform").notNull(),
+  clickedAt: timestamp("clicked_at", {
     mode: "string",
     withTimezone: true,
   })
@@ -17,9 +19,9 @@ export const emailOpens = pgTable("email_opens", {
     .notNull(),
 });
 
-export const emailOpensRelations = relations(emailOpens, ({ one }) => ({
+export const linkClicksRelations = relations(linkClicks, ({ one }) => ({
   email: one(emails, {
-    fields: [emailOpens.messageId],
+    fields: [linkClicks.messageId],
     references: [emails.messageId],
   }),
 }));

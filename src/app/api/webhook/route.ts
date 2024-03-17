@@ -5,8 +5,10 @@ import type {
   DeliveryWebhookData,
   BounceWebhookData,
   OpenWebhookData,
+  LinkClickWebhookData,
 } from "@/app/types/webhookData";
 import { emailOpens } from "@/schema/emailOpens";
+import { linkClicks } from "@/schema/linkClicks";
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +18,8 @@ export async function POST(request: Request) {
     const jsonData = JSON.parse(text) as
       | DeliveryWebhookData
       | BounceWebhookData
-      | OpenWebhookData;
+      | OpenWebhookData
+      | LinkClickWebhookData;
 
     // Log the webhook payload, which will be helpful for debugging
     // We're using console statements here for now, but you can use any logger like Winston or Pino
@@ -24,33 +27,54 @@ export async function POST(request: Request) {
     console.info(jsonData);
     console.log("-------------------");
 
-    if (jsonData.RecordType === "Delivery") {
-      await updateEmailDeliveryStatus({
-        messageId: jsonData.MessageID,
-        status: "DELIVERED",
-        updatedAt: jsonData.DeliveredAt,
-      });
-    } else if (jsonData.RecordType === "Bounce") {
-      await updateEmailDeliveryStatus({
-        messageId: jsonData.MessageID,
-        status: "BOUNCED",
-        updatedAt: jsonData.BouncedAt,
-        reason: jsonData.Details,
-      });
-    } else if (jsonData.RecordType === "Open") {
-      await db.insert(emailOpens).values({
-        openClientName: jsonData.Client.Name,
-        openPlatform: jsonData.Platform,
-        messageId: jsonData.MessageID,
-        openedAt: jsonData.ReceivedAt,
-      });
+    switch (jsonData.RecordType) {
+      case "Delivery":
+        await updateEmailDeliveryStatus({
+          messageId: jsonData.MessageID,
+          status: "DELIVERED",
+          updatedAt: jsonData.DeliveredAt,
+        });
 
-      if (jsonData.FirstOpen) {
-        await db
-          .update(emails)
-          .set({ opened: true })
-          .where(eq(emails.messageId, jsonData.MessageID));
-      }
+        break;
+      case "Bounce":
+        await updateEmailDeliveryStatus({
+          messageId: jsonData.MessageID,
+          status: "BOUNCED",
+          updatedAt: jsonData.BouncedAt,
+          reason: jsonData.Details,
+        });
+
+        break;
+      case "Open":
+        await db.insert(emailOpens).values({
+          openClientName: jsonData.Client.Name,
+          openPlatform: jsonData.Platform,
+          messageId: jsonData.MessageID,
+          openedAt: jsonData.ReceivedAt,
+        });
+
+        if (jsonData.FirstOpen) {
+          await db
+            .update(emails)
+            .set({ opened: true })
+            .where(eq(emails.messageId, jsonData.MessageID));
+        }
+
+        break;
+      case "Click":
+        await db.insert(linkClicks).values({
+          messageId: jsonData.MessageID,
+          clickLocation: jsonData.ClickLocation,
+          originalLink: jsonData.OriginalLink,
+          clickClientName: jsonData.Client.Name,
+          clickPlatform: jsonData.Platform,
+          clickedAt: jsonData.ReceivedAt,
+        });
+
+        break;
+      default:
+        console.log("Unknown webhook type received");
+        break;
     }
   } catch (error: any) {
     return new Response(`Webhook error: ${error.message}`, {
