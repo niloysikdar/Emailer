@@ -1,0 +1,1 @@
+ALTER TABLE "emails" ADD COLUMN "opened" boolean DEFAULT false NOT NULL;

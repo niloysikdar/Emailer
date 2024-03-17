@@ -11,9 +11,10 @@ export type DeliveryWebhookData = {
 };
 
 export type BounceWebhookData = {
+  RecordType: "Bounce";
+  MessageStream: "outbound";
   ID: number;
   Type: string;
-  RecordType: "Bounce";
   TypeCode: number;
   Tag: string;
   MessageID: string;
@@ -26,9 +27,29 @@ export type BounceWebhookData = {
   CanActivate: boolean;
   Subject: string;
   ServerID: number;
-  MessageStream: "outbound";
   Content: string;
   Name: string;
   Description: string;
   Metadata: any;
+};
+
+export type OpenWebhookData = {
+  RecordType: "Open";
+  MessageStream: "outbound";
+  FirstOpen: boolean;
+  Client: { Name: string; Company: string; Family: string };
+  OS: {
+    Name: string;
+    Company: string;
+    Family: string;
+  };
+  Platform: string;
+  UserAgent: string;
+  ReadSeconds: number;
+  Geo: any | null;
+  MessageID: string;
+  ReceivedAt: string;
+  Tag: string;
+  Recipient: string;
+  Metadata: any | null;
 };

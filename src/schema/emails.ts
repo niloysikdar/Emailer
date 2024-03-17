@@ -1,7 +1,8 @@
 import { relations } from "drizzle-orm";
-import { timestamp, pgTable, text, uuid, pgEnum } from "drizzle-orm/pg-core";
+import { timestamp, pgTable, text, pgEnum, boolean } from "drizzle-orm/pg-core";
 import type { InferSelectModel } from "drizzle-orm";
 import { users } from "./auth";
+import { emailOpens } from "./emailOpens";
 
 export const deliveryStatusEnum = pgEnum("delivery_status", [
   "SENDING",
@@ -10,8 +11,7 @@ export const deliveryStatusEnum = pgEnum("delivery_status", [
 ]);
 
 export const emails = pgTable("emails", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  messageId: text("message_id").notNull(),
+  messageId: text("message_id").notNull().primaryKey(),
   subject: text("subject").notNull(),
   from: text("from").notNull(),
   to: text("to").notNull(),
@@ -30,13 +30,15 @@ export const emails = pgTable("emails", {
     withTimezone: true,
   }),
   bounceReason: text("bounce_reason"),
+  opened: boolean("opened").notNull().default(false),
 });
 
-export const emailsRelations = relations(emails, ({ one }) => ({
+export const emailsRelations = relations(emails, ({ one, many }) => ({
   sender: one(users, {
     fields: [emails.senderId],
     references: [users.id],
   }),
+  opens: many(emailOpens),
 }));
 
 export type Email = InferSelectModel<typeof emails> & {

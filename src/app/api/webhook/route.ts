@@ -4,7 +4,9 @@ import { emails } from "@/schema/emails";
 import type {
   DeliveryWebhookData,
   BounceWebhookData,
+  OpenWebhookData,
 } from "@/app/types/webhookData";
+import { emailOpens } from "@/schema/emailOpens";
 
 export async function POST(request: Request) {
   try {
@@ -13,11 +15,12 @@ export async function POST(request: Request) {
     // Process the webhook payload
     const jsonData = JSON.parse(text) as
       | DeliveryWebhookData
-      | BounceWebhookData;
+      | BounceWebhookData
+      | OpenWebhookData;
 
     // Log the webhook payload, which will be helpful for debugging
     // We're using console statements here for now, but you can use any logger like Winston or Pino
-    console.info(jsonData.RecordType);
+    console.info(`${jsonData.RecordType} webhook received:`);
     console.info(jsonData);
     console.log("-------------------");
 
@@ -34,6 +37,20 @@ export async function POST(request: Request) {
         updatedAt: jsonData.BouncedAt,
         reason: jsonData.Details,
       });
+    } else if (jsonData.RecordType === "Open") {
+      await db.insert(emailOpens).values({
+        openClientName: jsonData.Client.Name,
+        openPlatform: jsonData.Platform,
+        messageId: jsonData.MessageID,
+        openedAt: jsonData.ReceivedAt,
+      });
+
+      if (jsonData.FirstOpen) {
+        await db
+          .update(emails)
+          .set({ opened: true })
+          .where(eq(emails.messageId, jsonData.MessageID));
+      }
     }
   } catch (error: any) {
     return new Response(`Webhook error: ${error.message}`, {
