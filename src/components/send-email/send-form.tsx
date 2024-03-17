@@ -44,6 +44,7 @@ export function SendEmailForm() {
 
     if (messageId) {
       revalidatePathManually("/dashboard/emails");
+      revalidatePathManually("/dashboard/analytics");
       toast.success("Email sent successfully");
     } else toast.error("Failed to send email, please try again later.");
   }
