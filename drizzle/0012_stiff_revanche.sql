@@ -1,0 +1,1 @@
+ALTER TABLE "email_templates" ADD COLUMN "active_content_id" uuid;

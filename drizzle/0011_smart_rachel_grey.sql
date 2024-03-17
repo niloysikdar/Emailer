@@ -1,0 +1,1 @@
+ALTER TABLE "template_contents" ALTER COLUMN "template_id" SET DATA TYPE uuid;
