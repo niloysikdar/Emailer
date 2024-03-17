@@ -6,7 +6,9 @@ import { SIDEBAR_ITEMS } from "../sidebar/data";
 
 export function TopTitleBar() {
   const pathname = usePathname();
-  const title = SIDEBAR_ITEMS.find((item) => item.link === pathname)?.title;
+  const title = SIDEBAR_ITEMS.find((item) =>
+    pathname.includes(item.link),
+  )?.title;
 
   return (
     <div className="w-full fixed top-0 left-64 z-50 bg-background">

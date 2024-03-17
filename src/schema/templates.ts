@@ -10,7 +10,7 @@ export const emailTemplates = pgTable("email_templates", {
   createdByUserId: text("created_by_user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
-  activeConentId: uuid("active_content_id"),
+  activeContentId: uuid("active_content_id"),
   createdAt: timestamp("created_at", {
     mode: "string",
     withTimezone: true,

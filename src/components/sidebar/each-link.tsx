@@ -14,7 +14,7 @@ export function SidebarEachLink({
   index: number;
 }) {
   const pathname = usePathname();
-  const isActive = pathname === item.link;
+  const isActive = pathname.includes(item.link);
   const Icon = SIDEBAR_ITEMS[index].icon;
 
   return (

@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { db } from "@/lib/db";
 import { emailTemplates } from "@/schema/templates";
-import { formatDistance, Locale } from "date-fns";
+import { formatDistance } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export async function AllTemplates() {
   const allTemplates = await db
@@ -13,6 +14,12 @@ export async function AllTemplates() {
 
   return (
     <div className="flex gap-8 flex-wrap">
+      {allTemplates.length === 0 && (
+        <p className="font-medium mt-10">
+          No Template Category found. Create one now.
+        </p>
+      )}
+
       {allTemplates.map((template) => (
         <Link
           key={template.id}
@@ -26,6 +33,20 @@ export async function AllTemplates() {
               <p className="text-base font-medium text-muted-foreground mt-1 mb-4">
                 {template.description}
               </p>
+
+              <div className="flex items-center gap-2 my-3 font-medium text-sm">
+                <div
+                  className={cn(
+                    "h-3 w-3 rounded-full",
+                    !!template.activeContentId ? "bg-green-500" : "bg-red-500",
+                  )}
+                ></div>
+                <p>
+                  {!!template.activeContentId
+                    ? "Active HTML Template"
+                    : "No Active HTML Template"}
+                </p>
+              </div>
 
               <p className="text-sm font-medium">
                 Created{" "}
