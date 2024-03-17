@@ -96,12 +96,7 @@ export function SendEmailForm() {
             )}
           />
 
-          <Button
-            type="submit"
-            size="sm"
-            aria-disabled={isPending}
-            disabled={isPending}
-          >
+          <Button type="submit" aria-disabled={isPending} disabled={isPending}>
             Send Email
             {isPending ? (
               <Loader2 className="w-4 h-4 ml-2 animate-spin" />
