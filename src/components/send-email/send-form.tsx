@@ -104,7 +104,7 @@ export function SendEmailForm() {
           >
             Send Email
             {isPending ? (
-              <Loader2 className="w-4 h-4 ml-2" />
+              <Loader2 className="w-4 h-4 ml-2 animate-spin" />
             ) : (
               <Send className="w-4 h-4 ml-2" />
             )}

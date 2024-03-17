@@ -18,7 +18,7 @@ export async function sendEmail(
       From: from,
       To: to,
       Subject: subject,
-      TextBody: textBody,
+      HtmlBody: textBody,
       TrackOpens: true,
     });
 
