@@ -4,7 +4,7 @@ import { SidebarEachLink } from "./each-link";
 
 export function Sidebar() {
   return (
-    <div className="group flex flex-col w-64 border-r min-h-dvh">
+    <div className="group flex flex-col w-64 border-r min-h-dvh fixed top-0 left-0 bg-background z-50">
       <div className="flex items-center px-4 py-4 pl-6">
         <p className="text-xl font-bold">Emailer</p>
       </div>

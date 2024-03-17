@@ -43,6 +43,4 @@ export const emailsRelations = relations(emails, ({ one, many }) => ({
   clicks: many(linkClicks),
 }));
 
-export type Email = InferSelectModel<typeof emails> & {
-  sender: InferSelectModel<typeof users>;
-};
+export type Email = InferSelectModel<typeof emails>;

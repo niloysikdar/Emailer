@@ -33,7 +33,9 @@ export default function RootLayout({
           <Sidebar />
           <div className="flex-grow">
             <TopTitleBar />
-            <div className="w-full pt-24 pb-8 px-8 min-h-dvh">{children}</div>
+            <div className="w-full pt-24 pb-8 px-8 pl-72 min-h-dvh">
+              {children}
+            </div>
           </div>
         </main>
 

@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { Loader2, Send } from "lucide-react";
+import { revalidatePathManually } from "@/actions/revalidatePathManually";
 
 export function SendEmailForm() {
   const [isPending, setIsPending] = useState(false);
@@ -41,8 +42,10 @@ export function SendEmailForm() {
     setIsPending(false);
     form.reset();
 
-    if (messageId) toast.success("Email sent successfully");
-    else toast.error("Failed to send email, please try again later.");
+    if (messageId) {
+      revalidatePathManually("/dashboard/emails");
+      toast.success("Email sent successfully");
+    } else toast.error("Failed to send email, please try again later.");
   }
 
   return (
