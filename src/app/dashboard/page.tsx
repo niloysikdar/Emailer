@@ -1,11 +1,7 @@
-import { SendEmailForm } from "@/components/send-email/send-form";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return (
-    <main className="min-h-dvh flex justify-center items-center">
-      <div className="w-full max-w-md">
-        <SendEmailForm />
-      </div>
-    </main>
-  );
+  redirect("/dashboard/emails");
+
+  return null;
 }
