@@ -1,0 +1,1 @@
+ALTER TABLE "emails" ADD COLUMN "bounce_reason" text;

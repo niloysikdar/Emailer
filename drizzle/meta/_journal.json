@@ -15,6 +15,20 @@
       "when": 1710670654482,
       "tag": "0001_late_starbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710676670807,
+      "tag": "0002_gray_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1710678922683,
+      "tag": "0003_aromatic_morg",
+      "breakpoints": true
     }
   ]
 }
