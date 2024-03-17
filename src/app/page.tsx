@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { db } from "@/lib/db";
-import { users } from "@/schema/auth";
+import Link from "next/link";
 
-export default async function Home() {
-  const allUsers = await db.select().from(users);
-
+export default function Home() {
   return (
-    <main className="min-h-dvh">
-      <pre>{JSON.stringify(allUsers, null, 2)}</pre>
-      <Button>Click me</Button>
+    <main className="min-h-dvh flex justify-center items-center">
+      <Link href="/dashboard" passHref>
+        <Button>Go to Dashboard</Button>
+      </Link>
     </main>
   );
 }
