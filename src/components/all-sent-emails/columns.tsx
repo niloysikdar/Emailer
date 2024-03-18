@@ -49,7 +49,7 @@ export const columns: ColumnDef<Email>[] = [
     header: () => <p className="pl-2">Subject</p>,
     cell: ({ row }) => (
       <Link
-        href={`/emails/${row.original.messageId}`}
+        href={`/dashboard/emails/${row.original.messageId}`}
         className="max-w-40 truncate pl-2 underline underline-offset-2"
       >
         {row.original.subject}
@@ -189,7 +189,7 @@ function Actions({ data }: { data: Email }) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => router.push(`/emails/${data.messageId}`)}
+            onClick={() => router.push(`/dashboard/emails/${data.messageId}`)}
           >
             View Email Details
           </DropdownMenuItem>
