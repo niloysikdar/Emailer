@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Emailer ✉️
 
-## Getting Started
+Version Controlled Transactional Email Service with Sending, tracking, managing templates and versions, and analytics features. Built on a Single Day (Sunday) 💻 🚀
 
-First, run the development server:
+## Features
+
+- Create Email Templates with Drag-and-Drop Email Editor and save them
+- Manage different formats/versions of it and mark anyone active
+- Send Transactional Emails by selecting the Templates
+- Track Delivery status, Email open and Link Clicks
+- Dashboard for emails and detailed view with useful data
+- Useful Sending Analytics with numbers and Charts
+
+## Tech Stack Used
+
+- Next.js v14 for the entire application
+- TypeScript for type safety
+- Tailwind CSS for styling
+- Radix UI (Shadcn UI) for components
+- PostgreSQL for the database
+- Drizzle ORM for managing DB schema and migrations
+- Route Handlers, Server Actions, and React Server Components (RSC) for data fetching and mutations
+- `@tanstack/react-query` for client-side data fetching and caching
+- React-hook-form for form handling and Zod for form validation
+- Postmark APIs for sending and tracking emails
+- `react-email-editor` by Unlayer for editing email templates
+
+## DB Schema
+
+![DB Schema](/images/schema.png)
+
+## Local Dev
+
+I used a Vercel Serverless Postgres DB for this project. You can use any other Postgres DB as well. Just update the connection string or the database credentials in the `.env` file.
+
+Create an account on [Postmark](https://postmarkapp.com) and get the server token. You can use it for sending emails.
+
+Create `.env` and `.env.local` files with the following content
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+POSTGRES_URL=""
+POSTGRES_PRISMA_URL=""
+POSTGRES_URL_NO_SSL=""
+POSTGRES_URL_NON_POOLING=""
+POSTGRES_USER=""
+POSTGRES_HOST=""
+POSTGRES_PASSWORD=""
+POSTGRES_DATABASE=""
+
+POSTMARK_SERVER_TOKEN=""
+```
+
+Install packages:
+
+```bash
+pnpm install
+```
+
+Run the existing migrations from the `migrations` folder and sync the DB with the DB schema.:
+
+```bash
+pnpm migrate
+```
+
+Open Drizzle Studio, create a new User, get the ID and use it in the `.env` file.
+
+```bash
+pnpm studio
+```
+
+Update the `.env` and `.env.local` files:
+
+```bash
+TESTUSER_ID=""
+TESTUSER_NAME=""
+TESTUSER_EMAIL=""
+```
+
+Run dev server:
+
+```bash
 pnpm dev
-# or
-bun dev
+```
+
+Reverse Proxy for tunnelling the webhook requests:
+
+```bash
+ngrok  http  3000
+```
+
+Update the webhook URL in the Postmark account settings.
+
+```bash
+https://<ngrok-url>/api/webhook
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Dashboard and Detailed View
 
-## Learn More
+<p align="left">
+<img src="https://imgur.com/Ec1Kvey.png" width="400">
+<img src="https://imgur.com/iuzqY2m.png" width="400">
+</p>
 
-To learn more about Next.js, take a look at the following resources:
+### Send Email and Sending Analytics
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<p align="left">
+<img src="https://imgur.com/RyHxMa6.png" width="400">
+<img src="https://imgur.com/MDQlAPP.png" width="400">
+</p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Email Templates and Create a New Template
 
-## Deploy on Vercel
+<p align="left">
+<img src="https://imgur.com/tm7sC2M.png" width="400">
+<img src="https://imgur.com/b3VcYV0.png" width="400">
+</p>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Template Versions and Email Editor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="left">
+<img src="https://imgur.com/Sf1oZKg.png" width="400">
+<img src="https://imgur.com/K08T4vP.png" width="400">
+</p>
+
+### Useful Metadata
+
+<p align="left">
+<img src="https://imgur.com/3mZIdZ4.png" width="400">
+</p>
+
+## Happy Building and Hacking! 💻 🚀
