@@ -1,0 +1,1 @@
+ALTER TABLE "emails" RENAME COLUMN "text_body" TO "html_body";

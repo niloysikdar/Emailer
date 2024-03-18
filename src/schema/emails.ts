@@ -16,7 +16,7 @@ export const emails = pgTable("emails", {
   subject: text("subject").notNull(),
   from: text("from").notNull(),
   to: text("to").notNull(),
-  textBody: text("text_body").notNull(),
+  htmlBody: text("html_body").notNull(),
   senderId: text("sender_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),

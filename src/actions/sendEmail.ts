@@ -1,16 +1,18 @@
 "use server";
 
 import { postmarkClient } from "@/lib/postmark";
-import type { SendEmailFormValues } from "@/components/send-email/form-schema";
 import { db } from "@/lib/db";
 import { emails } from "@/schema/emails";
 import { auth } from "@/lib/auth";
 import { LinkTrackingOptions } from "postmark/dist/client/models";
 
-export async function sendEmail(
-  values: SendEmailFormValues,
-): Promise<{ messageId: string | null }> {
-  const { subject, from, to, textBody } = values;
+export async function sendEmail(values: {
+  subject: string;
+  from: string;
+  to: string;
+  htmlBody: string;
+}): Promise<{ messageId: string | null }> {
+  const { subject, from, to, htmlBody } = values;
 
   try {
     const { session } = await auth();
@@ -19,7 +21,7 @@ export async function sendEmail(
       From: from,
       To: to,
       Subject: subject,
-      HtmlBody: textBody,
+      HtmlBody: htmlBody,
       TrackOpens: true,
       TrackLinks: LinkTrackingOptions.HtmlAndText,
     });
@@ -29,7 +31,7 @@ export async function sendEmail(
       subject: subject,
       from: from,
       to: to,
-      textBody: textBody,
+      htmlBody: htmlBody,
       senderId: session.user.id,
     });
 

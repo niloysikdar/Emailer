@@ -10,8 +10,8 @@ export const formSchema = z.object({
   to: z.string().email({
     message: "Invalid email",
   }),
-  textBody: z.string().min(6, {
-    message: "Text body is too short",
+  templateId: z.string().min(6, {
+    message: "Template ID is required",
   }),
 });
 

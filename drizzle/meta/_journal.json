@@ -99,6 +99,13 @@
       "when": 1710715311846,
       "tag": "0013_misty_dazzler",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1710723932559,
+      "tag": "0014_far_scalphunter",
+      "breakpoints": true
     }
   ]
 }
