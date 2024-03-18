@@ -83,14 +83,35 @@ export const columns: ColumnDef<Email>[] = [
   {
     accessorKey: "deliveryStatus",
     header: () => <p className="text-center">Delivery Status</p>,
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center gap-2 min-h-4">
-        <DeliveryStatusIndicator status={row.original.deliveryStatus} />
-        <span className="capitalize">
-          {row.original.deliveryStatus.toLowerCase()}
-        </span>
-      </div>
-    ),
+    cell: ({ row }) =>
+      row.original.deliveryStatus === "BOUNCED" ? (
+        <div className="flex justify-center items-center">
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <div className="flex items-center justify-center gap-2 min-h-4 cursor-pointer">
+                  <DeliveryStatusIndicator
+                    status={row.original.deliveryStatus}
+                  />
+                  <span className="capitalize">
+                    {row.original.deliveryStatus.toLowerCase()}
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-md">
+                <p>{row.original.bounceReason}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center gap-2 min-h-4">
+          <DeliveryStatusIndicator status={row.original.deliveryStatus} />
+          <span className="capitalize">
+            {row.original.deliveryStatus.toLowerCase()}
+          </span>
+        </div>
+      ),
   },
   {
     accessorKey: "deliveryStatusUpdatedAt",
